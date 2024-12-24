@@ -17,12 +17,12 @@ trait hasMetaData
     protected function addMeta(?string $key=null, mixed $value=null): bool
     {
         if(!empty($key)){
-            if(!$this->hasMetaData($key)) {
+            if(!$this->hasMeta($key)) {
                 $this->metaData->setSize(++$this->metaDataCount);
                 $this->metaData[$key] = null;
             }
         }
-        if(!empty($value) && $this->hasMetaData($key)) {
+        if(!empty($value) && $this->hasMeta($key)) {
             $this->metaData[$key] = $value;
             return true;
         }
@@ -31,7 +31,7 @@ trait hasMetaData
 
     protected function removeMeta(string $key):bool
     {
-        if(!$this->hasMetaData($key)) return false;
+        if(!$this->hasMeta($key)) return false;
         unset($this->metaData[$key]);
         $this->metaData->setSize(--$this->metaDataCount);
         return true;
@@ -42,10 +42,9 @@ trait hasMetaData
         return isset($this->metaData[$key]);
     }
 
-    protected function getMeta(string $key):mixed
+    protected function getMeta(string $key, mixed $default=null):mixed
     {
-        if($this->hasMetaData($key)) return $this->metaData[$key];
-        return null;
+        return $this->hasMeta($key) ? $this->metaData[$key] : $default;
     }
 
     protected function allMeta():\Iterator&\ArrayAccess
