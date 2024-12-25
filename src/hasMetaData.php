@@ -31,8 +31,17 @@ trait hasMetaData
                 }
                 return true;
             }
-            $this->metaData[$key] = $value;
-            return true;
+        }
+        if(!empty($value)) {
+            if(!$this->hasMeta($key)){
+                return false;
+            }else{
+                $this->metaData[$key] = $value;
+                return true;
+            }
+        }
+        return false;
+    }
     protected function arrayAdd(array $addMeta):bool
     {
         $added = false;
