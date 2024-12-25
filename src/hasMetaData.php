@@ -33,8 +33,13 @@ trait hasMetaData
             }
             $this->metaData[$key] = $value;
             return true;
+    protected function arrayAdd(array $addMeta):bool
+    {
+        $added = false;
+        foreach ($addMeta as $key => $value) {
+            $added=$this->addMeta($key, $value);
         }
-        return false;
+        return $added;
     }
 
     public function removeMeta(string $key):bool
