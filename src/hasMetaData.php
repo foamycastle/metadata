@@ -23,6 +23,14 @@ trait hasMetaData
             }
         }
         if(!empty($value) && $this->hasMeta($key)) {
+            if(is_array($value)) {
+                while(count($value) > 0) {
+                    $this->metaData->setSize(++$this->metaDataCount);
+                    $current=array_shift($value);
+                    $this->metaData[key($current)] = current($current);
+                }
+                return true;
+            }
             $this->metaData[$key] = $value;
             return true;
         }
