@@ -45,8 +45,9 @@ trait hasMetaData
         return true;
     }
 
-    public function hasMeta(string $key):bool
+    public function hasMeta(?string $key=null):bool
     {
+        if(empty($key)) return false;
         return isset($this->metaData[$key]);
     }
 

@@ -24,10 +24,10 @@ interface MetaDataInterface
 
     /**
      * Indicate if the metadata exists
-     * @param string $key the key by which the data is referenced
+     * @param string|null $key the key by which the data is referenced
      * @return bool TRUE if the data exists
      */
-    function hasMeta(string $key):bool;
+    function hasMeta(?string $key=null):bool;
 
     /**
      * Add metadata
