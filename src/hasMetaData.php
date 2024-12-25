@@ -7,14 +7,14 @@ trait hasMetaData
     protected SplFixedArray $metaData;
     protected int $metaDataCount = 0;
 
-    protected function clearMeta():void
+    public function clearMeta():void
     {
         $this->metaData = new SplFixedArray();
         $this->metaData->setSize(0);
         $this->metaDataCount=0;
     }
 
-    protected function addMeta(?string $key=null, mixed $value=null): bool
+    public function addMeta(?string $key=null, mixed $value=null): bool
     {
         if(!empty($key)){
             if(!$this->hasMeta($key)) {
@@ -29,7 +29,7 @@ trait hasMetaData
         return false;
     }
 
-    protected function removeMeta(string $key):bool
+    public function removeMeta(string $key):bool
     {
         if(!$this->hasMeta($key)) return false;
         unset($this->metaData[$key]);
@@ -37,17 +37,17 @@ trait hasMetaData
         return true;
     }
 
-    protected function hasMeta(string $key):bool
+    public function hasMeta(string $key):bool
     {
         return isset($this->metaData[$key]);
     }
 
-    protected function getMeta(string $key, mixed $default=null):mixed
+    public function getMeta(string $key, mixed $default=null):mixed
     {
         return $this->hasMeta($key) ? $this->metaData[$key] : $default;
     }
 
-    protected function allMeta():\Iterator&\ArrayAccess
+    public function allMeta():\Iterator&\ArrayAccess
     {
         return $this->metaData;
     }
