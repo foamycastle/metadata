@@ -16,20 +16,13 @@ trait hasMetaData
 
     public function addMeta(?string $key=null, mixed $value=null): bool
     {
+        if(!empty($value) && is_array($value)) {
+            return $this->arrayAdd($value);
+        }
         if(!empty($key)){
             if(!$this->hasMeta($key)) {
                 $this->metaData->setSize(++$this->metaDataCount);
-                $this->metaData[$key] = null;
-            }
-        }
-        if(!empty($value) && $this->hasMeta($key)) {
-            if(is_array($value)) {
-                while(count($value) > 0) {
-                    $this->metaData->setSize(++$this->metaDataCount);
-                    $current=array_shift($value);
-                    $this->metaData[key($current)] = current($current);
-                }
-                return true;
+                $this->metaData[$key]=null;
             }
         }
         if(!empty($value)) {
