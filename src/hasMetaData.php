@@ -1,71 +1,41 @@
 <?php
 
 namespace Foamycastle\Traits;
-use SplFixedArray;
+
+/**
+ * The object that uses this trait must call metaInit() in its constructor
+ */
 trait hasMetaData
 {
-    protected SplFixedArray $metaData;
-    protected int $metaDataCount = 0;
+    protected MetaDataObject $metaData;
 
-    public function clearMeta():void
+    protected function metaInit():void
     {
-        $this->metaData = new SplFixedArray();
-        $this->metaData->setSize(0);
-        $this->metaDataCount=0;
+        $this->metaData = new MetaDataObject(0);
     }
 
-    public function addMeta(?string $key=null, mixed $value=null): bool
+    public function metaGet(string $key):mixed
     {
-        if(!empty($value) && is_array($value)) {
-            return $this->arrayAdd($value);
+        $entry = $this->metaData->get($key);
+        if ($entry) {
+            return $entry[$key];
         }
-        if(!empty($key)){
-            if(!$this->hasMeta($key)) {
-                $this->metaData->setSize(++$this->metaDataCount);
-                $this->metaData[$key]=null;
-            }
-        }
-        if(!empty($value)) {
-            if(!$this->hasMeta($key)){
-                return false;
-            }else{
-                $this->metaData[$key] = $value;
-                return true;
-            }
-        }
-        return false;
-    }
-    protected function arrayAdd(array $addMeta):bool
-    {
-        $added = false;
-        foreach ($addMeta as $key => $value) {
-            $added=$this->addMeta($key, $value);
-        }
-        return $added;
+        return null;
     }
 
-    public function removeMeta(string $key):bool
+    public function metaExists(string $key):bool
     {
-        if(!$this->hasMeta($key)) return false;
-        unset($this->metaData[$key]);
-        $this->metaData->setSize(--$this->metaDataCount);
-        return true;
+        return $this->metaData->has($key)>-1;
     }
 
-    public function hasMeta(?string $key=null):bool
+    public function metaSet(string $key, mixed $value):void
     {
-        if(empty($key)) return false;
-        return isset($this->metaData[$key]);
+        $this->metaData->set($key, $value);
+    }
+    public function metaUnset(string $key):void
+    {
+        $this->metaData->offsetUnset($key);
     }
 
-    public function getMeta(string $key, mixed $default=null):mixed
-    {
-        return $this->hasMeta($key) ? $this->metaData[$key] : $default;
-    }
-
-    public function allMeta():\Iterator&\ArrayAccess
-    {
-        return $this->metaData;
-    }
 
 }

@@ -5,49 +5,38 @@ namespace Foamycastle\Traits;
 use ArrayAccess;
 use Iterator;
 
+/**
+ * This interface is used in conjunction with the 'hasMetaData' trait
+ */
 interface MetaDataInterface
 {
+    /**
+     * Indicates that a key exist in the metadata storage
+     * @param string $key the id by which the user references the metadata
+     * @return bool TRUE if the key exists in the metadata storage
+     */
+    function metaExists(string $key):bool;
 
     /**
-     * Clear and initialize all metadata
+     * Retrieve the metadata
+     * @param string $key the id by which the user references the metadata
+     * @return mixed the metadata entry
+     */
+    function metaGet(string $key):mixed;
+
+    /**
+     * Commit a metadata entry
+     * @param string $key the id by which the user references the metadata
+     * @param mixed $value the metadata
      * @return void
      */
-    function clearMeta():void;
+    function metaSet(string $key, mixed $value):void;
 
     /**
-     * Retrieve metadata by the given key
-     * @param string $key
-     * @param mixed $default the value to return if the provided $key is not found
-     * @return mixed
+     * Remove a metadata entry
+     * @param string $key the id by which the user references the metadata
+     * @return void
      */
-    function getMeta(string $key, mixed $default = null): mixed;
-
-    /**
-     * Indicate if the metadata exists
-     * @param string|null $key the key by which the data is referenced
-     * @return bool TRUE if the data exists
-     */
-    function hasMeta(?string $key=null):bool;
-
-    /**
-     * Add metadata
-     * @param string $key
-     * @param mixed $value
-     * @return bool TRUE if the data was added, FALSE if not
-     */
-    function addMeta(string $key, mixed $value):bool;
-
-    /**
-     * Remove metadata
-     * @param string $key
-     * @return bool TRUE if data was removed, FALSE if data was not removed.
-     */
-    function removeMeta(string $key):bool;
-
-    /**
-     * Return access to the metadata array
-     * @return ArrayAccess&Iterator
-     */
-    function allMeta(): Iterator&ArrayAccess;
+    function metaUnset(string $key):void;
 
 }
